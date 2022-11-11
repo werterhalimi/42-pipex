@@ -6,7 +6,7 @@
 /*   By: shalimi <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:38:06 by shalimi           #+#    #+#             */
-/*   Updated: 2022/11/03 20:49:06 by shalimi          ###   ########.fr       */
+/*   Updated: 2022/11/11 01:17:34 by shalimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	close_wait(int fd[2], int out[2], int j, int *pid)
 	close(out[1]);
 	while (j >= 0)
 		wait(&pid[j--]);
+	free(pid);
 }
 
 int	launch_process(int in[2], int out[2], char *arg, char **env)

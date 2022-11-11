@@ -3,8 +3,8 @@ LIBFT = libft
 CFLAGS = -Wall -Wextra -Werror -lm -D MAIN
 CC = gcc
 SRC_PATH = ./
-OPTIONS = -I./libft -g3 -fsanitize=address
-SRC = main.c pipex_utils.c
+OPTIONS = -I./libft 
+SRC = main.c pipex_utils.c 
 SRCS = $(addprefix $(SRC_PATH),$(SRC))
 OBJS = $(SRCS:.c=.o)
 
