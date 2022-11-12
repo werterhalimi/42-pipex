@@ -6,7 +6,7 @@
 /*   By: shalimi <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 20:38:06 by shalimi           #+#    #+#             */
-/*   Updated: 2022/11/11 01:17:34 by shalimi          ###   ########.fr       */
+/*   Updated: 2022/11/12 18:02:57 by shalimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,7 @@ char	*get_path(char **path, char *command)
 			return (ret);
 		i++;
 	}
+	ft_putstr_fd(command, 1);
+	ft_putendl_fd(" n'existe pas.", 1);
 	return (0);
 }

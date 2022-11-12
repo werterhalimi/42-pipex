@@ -6,7 +6,7 @@
 /*   By: shalimi <marvin@42lausanne.ch>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 16:59:28 by shalimi           #+#    #+#             */
-/*   Updated: 2022/11/11 17:25:52 by shalimi          ###   ########.fr       */
+/*   Updated: 2022/11/12 18:05:06 by shalimi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	first_process(int in, int out[2], char *args, char **env)
 {
 	char	**paths;
 	char	**command;
+	char	*path;
 	int		pid;
 
 	pipe(out);
@@ -24,10 +25,11 @@ int	first_process(int in, int out[2], char *args, char **env)
 	{
 		paths = ft_split(&(env[ft_find_paths_index(env)][5]), ':');
 		command = ft_split(args, ' ');
+		path = get_path(paths, command[0]);
 		dup2(in, 0);
 		close(out[0]);
 		dup2(out[1], 1);
-		execve(get_path(paths, command[0]), command, env);
+		execve(path, command, env);
 	}
 	close(in);
 	close(out[1]);
@@ -39,16 +41,18 @@ int	middle_process(int in[2], int out[2], char *args, char **env)
 	char	**paths;
 	char	**command;
 	int		pid;
+	char	*path;
 
 	pid = fork();
 	if (!pid)
 	{
 		paths = ft_split(&(env[ft_find_paths_index(env)][5]), ':');
 		command = ft_split(args, ' ');
+		path = get_path(paths, command[0]);
 		dup2(in[0], 0);
 		dup2(out[1], 1);
 		close(out[0]);
-		execve(get_path(paths, command[0]), command, env);
+		execve(path, command, env);
 	}
 	close(out[1]);
 	return (pid);
@@ -59,16 +63,18 @@ int	final_process(int in[2], int out, char *args, char **env)
 	int		pid;
 	char	**command;
 	char	**paths;
+	char	*path;
 
 	close(in[1]);
 	pid = fork();
 	if (!pid)
 	{
+		command = ft_split(args, ' ');
+		paths = ft_split(&(env[ft_find_paths_index(env)][5]), ':');
+		path = get_path(paths, command[0]);
 		dup2(in[0], 0);
 		dup2(out, 1);
-		paths = ft_split(&(env[ft_find_paths_index(env)][5]), ':');
-		command = ft_split(args, ' ');
-		execve(get_path(paths, command[0]), command, env);
+		execve(path, command, env);
 	}
 	close(out);
 	return (pid);
